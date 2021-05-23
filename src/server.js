@@ -1,17 +1,20 @@
 const express =  require('express')
 const { db } = require("./models/db")
+
+const linksRoute = require('./routes/links')
+const redirRoute = require('./routes/redirection')
+
 const app = express()
 
-db.sync({force=true})
+app.use(express.json())
+
+app.use('/api/links', linksRoute)
+app.use('/', redirRoute)
+
+db.sync()
     .then(() => console.log('db works'))
     .catch((err) => console.error(err))
 
-app.get("/",(req,res)=>{
-    res.send("Hello World")
-})
-
-
-
-app.listen(3000,()=>{
-    console.log("server started on port: ",3000)
+app.listen(4445,()=>{
+    console.log("server started on port: ",4445)
 })
